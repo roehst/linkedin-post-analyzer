@@ -1,6 +1,10 @@
 // LinkedIn Post Analyzer - Content Script
 // This script runs on LinkedIn pages and extracts posts from the feed
 
+// Constants
+const FEED_CHECK_INTERVAL_MS = 500;
+const POST_ID_LENGTH = 32;
+
 class LinkedInPostAnalyzer {
   constructor() {
     this.posts = new Map();
@@ -20,7 +24,7 @@ class LinkedInPostAnalyzer {
       this.scanExistingPosts();
     });
 
-    // Wait for feed to load
+    // Wait for feed to load with faster polling
     const checkFeed = setInterval(() => {
       const feed = document.querySelector('.scaffold-finite-scroll__content, [role="main"]');
       if (feed) {
@@ -31,7 +35,7 @@ class LinkedInPostAnalyzer {
         this.observers.push(observer);
         clearInterval(checkFeed);
       }
-    }, 1000);
+    }, FEED_CHECK_INTERVAL_MS);
   }
 
   // Extract post data from a post element
@@ -80,7 +84,7 @@ class LinkedInPostAnalyzer {
   // Generate a unique post ID
   generatePostId(userId, content, timestamp) {
     const str = `${userId}-${content.substring(0, 50)}-${timestamp}`;
-    return btoa(str).substring(0, 32);
+    return btoa(str).substring(0, POST_ID_LENGTH);
   }
 
   // Scan the feed for posts

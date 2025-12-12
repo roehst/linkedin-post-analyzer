@@ -1,5 +1,8 @@
 // LinkedIn Post Analyzer - Popup Script
 
+// Constants
+const STATUS_MESSAGE_TIMEOUT = 3000;
+
 class PopupController {
   constructor() {
     this.currentTab = 'stats';
@@ -199,7 +202,7 @@ class PopupController {
         
         setTimeout(() => {
           statusEl.style.display = 'none';
-        }, 3000);
+        }, STATUS_MESSAGE_TIMEOUT);
       } else {
         statusEl.className = 'status-message error';
         statusEl.textContent = 'Failed to save API key';

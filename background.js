@@ -119,6 +119,9 @@ class PostAnalyzerService {
   }
 
   async callOpenAI(content) {
+    // Use gpt-4o-mini for better performance and lower costs
+    const MODEL = 'gpt-4o-mini';
+    
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -126,7 +129,7 @@ class PostAnalyzerService {
         'Authorization': `Bearer ${this.apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: MODEL,
         messages: [
           {
             role: 'system',
@@ -157,13 +160,14 @@ class PostAnalyzerService {
     // Simple heuristic for demo purposes
     let score = 0;
     
-    // Check for AI-like patterns
-    const aiIndicators = [
-      /\b(delve|utilize|leverage|synergy|paradigm|robust|cutting-edge)\b/gi,
-      /\b(innovative|transformative|game-changing|revolutionary)\b/gi,
-      /\b(it's important to note|it's worth mentioning|in conclusion)\b/gi,
-      /\b(furthermore|moreover|additionally|consequently)\b/gi
-    ];
+    // Check for AI-like patterns (cached regex patterns)
+    const AI_BUZZWORDS_1 = /\b(delve|utilize|leverage|synergy|paradigm|robust|cutting-edge)\b/gi;
+    const AI_BUZZWORDS_2 = /\b(innovative|transformative|game-changing|revolutionary)\b/gi;
+    const AI_PHRASES = /\b(it's important to note|it's worth mentioning|in conclusion)\b/gi;
+    const AI_TRANSITIONS = /\b(furthermore|moreover|additionally|consequently)\b/gi;
+    const EMOJI_PATTERN = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu;
+    
+    const aiIndicators = [AI_BUZZWORDS_1, AI_BUZZWORDS_2, AI_PHRASES, AI_TRANSITIONS];
     
     aiIndicators.forEach(pattern => {
       const matches = content.match(pattern);
@@ -173,7 +177,7 @@ class PostAnalyzerService {
     });
     
     // Check for excessive emoji (can indicate automated posting)
-    const emojiCount = (content.match(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu) || []).length;
+    const emojiCount = (content.match(EMOJI_PATTERN) || []).length;
     if (emojiCount > 5) score += 0.1;
     
     // Check for very formal structure
@@ -280,7 +284,8 @@ class PostAnalyzerService {
   async clearData() {
     this.postsDb = {};
     this.usersDb = {};
-    await chrome.storage.local.clear();
+    // Only clear specific keys related to this extension
+    await chrome.storage.local.remove(['apiKey', 'postsDb', 'usersDb', 'aiThreshold', 'filteredUsers']);
   }
 }
 
