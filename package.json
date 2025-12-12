@@ -1,0 +1,21 @@
+{
+  "name": "linkedin-post-analyzer",
+  "version": "1.0.0",
+  "description": "Chrome extension that analyzes LinkedIn posts for AI-generated content",
+  "author": "roehst",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roehst/linkedin-post-analyzer.git"
+  },
+  "keywords": [
+    "linkedin",
+    "ai-detection",
+    "chrome-extension",
+    "openai",
+    "content-analysis"
+  ],
+  "scripts": {
+    "validate": "node -c background.js && node -c content.js && node -c popup.js && echo 'All files validated!'"
+  }
+}

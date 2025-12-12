@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Post Analyzer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🤖 LinkedIn Post Analyzer</h1>
+      <p class="subtitle">AI Content Detection & Filtering</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="stats">Stats</button>
+      <button class="tab" data-tab="users">Users</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- Stats Tab -->
+    <div class="tab-content active" id="stats-tab">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="total-posts">0</div>
+          <div class="stat-label">Posts Analyzed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="total-users">0</div>
+          <div class="stat-label">Users Tracked</div>
+        </div>
+        <div class="stat-card high">
+          <div class="stat-value" id="high-ai-posts">0</div>
+          <div class="stat-label">High AI Posts</div>
+        </div>
+        <div class="stat-card medium">
+          <div class="stat-value" id="medium-ai-posts">0</div>
+          <div class="stat-label">Medium AI Posts</div>
+        </div>
+        <div class="stat-card low">
+          <div class="stat-value" id="low-ai-posts">0</div>
+          <div class="stat-label">Low AI Posts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="filtered-users">0</div>
+          <div class="stat-label">Filtered Users</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div class="tab-content" id="users-tab">
+      <div class="users-header">
+        <input type="text" id="user-search" placeholder="Search users..." />
+      </div>
+      <div class="users-list" id="users-list">
+        <div class="loading">Loading users...</div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-content" id="settings-tab">
+      <div class="settings-section">
+        <h3>OpenAI API Configuration</h3>
+        <p class="help-text">Enter your OpenAI API key for accurate AI detection. Leave blank to use heuristic detection.</p>
+        <input type="password" id="api-key" placeholder="sk-..." />
+        <button id="save-api-key" class="btn btn-primary">Save API Key</button>
+        <div id="api-key-status" class="status-message"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>AI Detection Threshold</h3>
+        <p class="help-text">Posts above this threshold will be flagged as high AI content.</p>
+        <div class="slider-container">
+          <input type="range" id="ai-threshold" min="0" max="100" value="70" />
+          <span id="threshold-value">70%</span>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Data Management</h3>
+        <button id="clear-data" class="btn btn-danger">Clear All Data</button>
+        <p class="help-text">This will delete all stored posts and user data.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
