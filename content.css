@@ -1,0 +1,99 @@
+/* LinkedIn Post Analyzer - Content Styles */
+
+.ai-analyzer-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin-left: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 12px;
+  background: #f3f6f8;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.ai-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ai-indicator-dot.pending {
+  background: #ffa500;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.ai-indicator-dot.low {
+  background: #28a745;
+}
+
+.ai-indicator-dot.medium {
+  background: #ffc107;
+}
+
+.ai-indicator-dot.high {
+  background: #dc3545;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.ai-analyzer-indicator[data-status="high"] {
+  background: #fee;
+  color: #c00;
+}
+
+.ai-analyzer-indicator[data-status="medium"] {
+  background: #fffbf0;
+  color: #856404;
+}
+
+.ai-analyzer-indicator[data-status="low"] {
+  background: #f0f8f0;
+  color: #155724;
+}
+
+.ai-analyzer-filter-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 100;
+  border-radius: 8px;
+}
+
+.filter-message {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  padding: 20px;
+}
+
+.filter-message .show-anyway {
+  display: block;
+  margin: 12px auto 0;
+  padding: 8px 16px;
+  background: #0a66c2;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.filter-message .show-anyway:hover {
+  background: #004182;
+}
